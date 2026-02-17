@@ -1,0 +1,21 @@
+import java.util.Scanner; //Para importar la librería Scanner
+public class Main {
+    public static void main(String[] args) {
+
+        //Saludar al mundo
+        System.out.println("Hola Mundo, distrito PROGCOM-A");
+
+        Scanner leer= new Scanner(System.in);
+        //Se imprime la respuesta
+        System.out.println("¿Está lloviendo?");
+        //Creando un objeto que recibiria la respuesta
+        String respuesta=leer.nextLine();
+
+        System.out.println("Su respuesta fue: "+respuesta);
+        //Programando con if/else
+        if (respuesta=="no"); {
+            System.out.println("Te recomiendo ir al parque");
+        }
+
+    }
+}
