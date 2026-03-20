@@ -61,9 +61,7 @@ POWERUP_ICONS = {
     "small": "◄►",
 }
 
-# ══════════════════════════════════════════════════════
-#  UTILITARIOS
-# ══════════════════════════════════════════════════════
+
 def clamp(v, lo, hi): return max(lo, min(hi, v))
 def lerp(a, b, t): return a + (b - a) * t
 
@@ -80,9 +78,7 @@ def blend(c1, c2, t):
     return rgb_to_hex(lerp(r1,r2,t), lerp(g1,g2,t), lerp(b1,b2,t))
 
 
-# ══════════════════════════════════════════════════════
-#  PARTÍCULA
-# ══════════════════════════════════════════════════════
+
 class Particle:
     def __init__(self, x, y, color):
         angle = random.uniform(0, 2*math.pi)
@@ -113,9 +109,7 @@ class Particle:
         return blend(self.color, C_BG, 1-t)
 
 
-# ══════════════════════════════════════════════════════
-#  BOLA
-# ══════════════════════════════════════════════════════
+
 class Ball:
     BASE_SPEED = 380
 
@@ -175,9 +169,7 @@ class Ball:
             self.vy = self.vy / s * target
 
 
-# ══════════════════════════════════════════════════════
-#  LADRILLO
-# ══════════════════════════════════════════════════════
+
 class Brick:
     def __init__(self, x, y, hp, palette_idx, special=None):
         self.x, self.y = x, y
@@ -225,9 +217,7 @@ class Brick:
             self.shake_x = 0
 
 
-# ══════════════════════════════════════════════════════
-#  POWER-UP
-# ══════════════════════════════════════════════════════
+
 class PowerUp:
     def __init__(self, x, y, ptype):
         self.x, self.y = x, y
@@ -244,9 +234,7 @@ class PowerUp:
     def rect(self): return (self.x-18, self.y-10, self.x+18, self.y+10)
 
 
-# ══════════════════════════════════════════════════════
-#  LASER
-# ══════════════════════════════════════════════════════
+
 class Laser:
     def __init__(self, x, y):
         self.x, self.y = x, y
@@ -258,9 +246,7 @@ class Laser:
         if self.y < 0: self.active = False
 
 
-# ══════════════════════════════════════════════════════
-#  NIVELES
-# ══════════════════════════════════════════════════════
+
 def make_level(level):
     """Retorna lista de Brick según el nivel."""
     bricks = []
@@ -314,9 +300,7 @@ def make_level(level):
     return bricks
 
 
-# ══════════════════════════════════════════════════════
-#  JUEGO PRINCIPAL
-# ══════════════════════════════════════════════════════
+
 class Arkanoid:
     def __init__(self, root):
         self.root = root
@@ -333,7 +317,7 @@ class Arkanoid:
         self._draw_background()
         self._show_title()
 
-    # ── INIT ────────────────────────────────────────────────────────────────
+
     def _init_state(self):
         self.state       = "title"   # title / playing / paused / dead / win / gameover
         self.level       = 1
@@ -408,7 +392,7 @@ class Arkanoid:
             yt = lerp(H*0.55, H, t**1.4)
             self.grid_lines.append(("h", yt))
 
-    # ── TECLADO / RATÓN ────────────────────────────────────────────────────
+
     def _bind_keys(self):
         self.root.bind("<KeyPress>",   self._key_down)
         self.root.bind("<KeyRelease>", self._key_up)
@@ -445,7 +429,7 @@ class Arkanoid:
         if hasattr(self, "ball_on_pad") and self.ball_on_pad:
             self.ball_on_pad = False
 
-    # ── NUEVO JUEGO ────────────────────────────────────────────────────────
+
     def _start_new_game(self):
         self.score = 0
         self.lives = 3
@@ -464,7 +448,7 @@ class Arkanoid:
         else:
             self.state = "gameover"
 
-    # ── LOOP PRINCIPAL ─────────────────────────────────────────────────────
+
     def _loop(self):
         now = time.time()
         dt  = min(now - self.last_time, 0.05)
@@ -476,7 +460,7 @@ class Arkanoid:
 
         self.frame_id = self.root.after(int(1000/FPS), self._loop)
 
-    # ── UPDATE ─────────────────────────────────────────────────────────────
+
     def _update(self, dt):
         if self.state != "playing":
             # Actualizar partículas siempre
@@ -692,7 +676,7 @@ class Arkanoid:
                 self.pad_x + random.uniform(0, self.pad_w),
                 self.pad_y + PAD_H//2, C_PAD, 1)
 
-    # ── SCORE FLOATS ────────────────────────────────────────────────────────
+
     def __init_score_floats(self):
         if not hasattr(self, "_score_floats"):
             self._score_floats = []
@@ -701,14 +685,12 @@ class Arkanoid:
         self.__init_score_floats()
         self._score_floats.append([x, y, pts, 1.2])
 
-    # ── PARTÍCULAS ──────────────────────────────────────────────────────────
+
     def _spawn_particles_burst(self, x, y, color, n):
         for _ in range(n):
             self.particles.append(Particle(x, y, color))
 
-    # ══════════════════════════════════════════════════════
-    #  RENDER
-    # ══════════════════════════════════════════════════════
+
     def _render(self):
         cv = self.cv
         cv.delete("all")
@@ -737,7 +719,7 @@ class Arkanoid:
         elif self.state == "gameover":
             self._draw_game_over()
 
-    # ── FONDO SYNTHWAVE ─────────────────────────────────────────────────────
+
     def _draw_background(self):
         cv = self.cv
         # Gradiente cielo (rectángulos)
@@ -812,7 +794,7 @@ class Arkanoid:
         cv.create_line(2, 60, 2, grid_top, fill="#1a1a40", width=2)
         cv.create_line(W-2, 60, W-2, grid_top, fill="#1a1a40", width=2)
 
-    # ── LADRILLOS ───────────────────────────────────────────────────────────
+
     def _draw_bricks(self):
         cv = self.cv
         for brick in self.bricks:
@@ -868,7 +850,7 @@ class Arkanoid:
                                text="★", fill=col2,
                                font=("Courier New", 9, "bold"))
 
-    # ── PARTÍCULAS ──────────────────────────────────────────────────────────
+
     def _draw_particles(self):
         cv = self.cv
         for p in self.particles:
@@ -891,7 +873,7 @@ class Arkanoid:
                 ey = p.y + p.vy*0.015
                 cv.create_line(p.x,p.y,ex,ey, fill=col, width=max(1,int(r)))
 
-    # ── POWER-UPS ──────────────────────────────────────────────────────────
+
     def _draw_powerups(self):
         cv = self.cv
         for pu in self.powerups:
@@ -910,7 +892,7 @@ class Arkanoid:
             cv.create_text(pu.x, pu.y, text=POWERUP_ICONS[pu.type],
                            fill="#000000", font=("Courier New", 10, "bold"))
 
-    # ── LASERS ─────────────────────────────────────────────────────────────
+
     def _draw_lasers(self):
         cv = self.cv
         for laser in self.lasers:
@@ -921,7 +903,7 @@ class Arkanoid:
             cv.create_line(laser.x, laser.y, laser.x, laser.y-22,
                            fill=blend(col,"#ffffff",0.4), width=1)
 
-    # ── BOLAS ───────────────────────────────────────────────────────────────
+
     def _draw_balls(self):
         cv = self.cv
         for ball in self.balls:
@@ -949,7 +931,7 @@ class Arkanoid:
                            ball.x-BALL_R+6,ball.y-BALL_R+6,
                            fill="#ccffff", outline="")
 
-    # ── PALETA ──────────────────────────────────────────────────────────────
+
     def _draw_pad(self):
         cv = self.cv
         px = self.pad_x
@@ -982,7 +964,7 @@ class Arkanoid:
                 cv.create_rectangle(lx-3,py-8,lx+3,py,
                                     fill="#ffd700", outline="#ffaa00")
 
-    # ── HUD ─────────────────────────────────────────────────────────────────
+
     def _draw_hud(self):
         cv  = self.cv
         ph  = self.bg_phase
@@ -1036,7 +1018,7 @@ class Arkanoid:
                            anchor="e", fill="#00ff88",
                            font=("Courier New", 9, "bold"))
 
-    # ── SCORE FLOATS ────────────────────────────────────────────────────────
+
     def _draw_score_floats(self):
         self.__init_score_floats()
         cv  = self.cv
@@ -1054,7 +1036,7 @@ class Arkanoid:
                 alive.append(sf)
         self._score_floats = alive
 
-    # ── OVERLAYS ────────────────────────────────────────────────────────────
+
     def _draw_overlay(self, title, sub, color):
         cv = self.cv
         cv.create_rectangle(0, H//2-60, W, H//2+60,
@@ -1091,7 +1073,7 @@ class Arkanoid:
         cv.create_text(W//2, H//2+108, text="Presiona  R  para reiniciar",
                        fill=TEXT_DIM, font=("Courier New", 10))
 
-    # ── PANTALLA TÍTULO ─────────────────────────────────────────────────────
+
     def _show_title(self):
         self.state = "title"
         if self.frame_id:
