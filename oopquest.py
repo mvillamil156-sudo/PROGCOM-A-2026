@@ -1,12 +1,6 @@
 """
 SINOPSIS
 --------
-OOP Quest es un RPG de texto con interfaz gráfica Tkinter donde el jugador
-aprende los 4 pilares de la POO (Clases, Herencia, Encapsulamiento y
-Polimorfismo) a través de mecánicas de juego directamente vinculadas a cada
-concepto. No es un quiz disfrazado de juego — CADA mecánica central ES el
-concepto que enseña.
-
 CONCEPTOS CUBIERTOS
 -------------------
   Nivel 1 — CLASES Y OBJETOS        : Construye tu héroe atributo a atributo
@@ -18,7 +12,7 @@ CONCEPTOS CUBIERTOS
 """
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  IMPORTS — solo stdlib
+#  IMPORT
 # ─────────────────────────────────────────────────────────────────────────────
 import tkinter as tk
 from tkinter import ttk, font as tkfont
@@ -29,7 +23,7 @@ from pathlib import Path
 from datetime import datetime
 
 # ─────────────────────────────────────────────────────────────────────────────
-#  PALETA VISUAL  —  RPG oscuro con acentos amber
+#  PALETA VISUAL  
 # ─────────────────────────────────────────────────────────────────────────────
 C = {
     "bg":        "#0e0e1a",   # fondo oscuro
@@ -56,7 +50,7 @@ FONTS = {}  # populated after Tk() init
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  ══════════════════════════════════════════════════════════════════════════
-#  DOMINIO — Motor del juego (100% POO puro, comentado pedagógicamente)
+#  DOMINIO 
 #  ══════════════════════════════════════════════════════════════════════════
 # ─────────────────────────────────────────────────────────────────────────────
 
