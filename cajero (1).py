@@ -1,10 +1,5 @@
 """
-╔══════════════════════════════════════════════════════════════════╗
-║        S U P E R M A R K E T   S E L F - C H E C K O U T       ║
-║         OOP · CSV Import/Export · QR Code · Tkinter GUI          ║
-╚══════════════════════════════════════════════════════════════════╝
-  Ejecutar:  python cajero.py
-  Productos: productos.csv  (mismo directorio)
+S U P E R M A R K E T  
 """
 
 # ─────────────────────────────────────────────────────────────────
