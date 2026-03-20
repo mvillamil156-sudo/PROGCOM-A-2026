@@ -1,8 +1,5 @@
 """
-╔══════════════════════════════════════════════════════════════╗
-║          A R K A N O I D  ·  S Y N T H W A V E  8 0 s       ║
-║              Python · Tkinter · Zero dependencies            ║
-╚══════════════════════════════════════════════════════════════╝
+A R K A N O I D 
 """
 
 import tkinter as tk
