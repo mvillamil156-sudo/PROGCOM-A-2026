@@ -140,7 +140,7 @@ class MinesweeperApp(tk.Tk):
         # Título
         canvas.create_text(260, 80, text="💣", font=("Segoe UI Emoji", 56), fill=ACCENT_PINK)
         canvas.create_text(260, 155, text="BUSCAMINAS", font=("Courier New", 34, "bold"), fill=ACCENT_CYAN)
-        canvas.create_text(260, 188, text="N E O N   E D I T I O N", font=("Courier New", 12), fill=TEXT_DIM)
+        canvas.create_text(260, 188, text="N E O N   E D I T I O N", font=("Courier New", 12), fill=TEXT_DIM, spacing=4)
 
         # Línea decorativa
         canvas.create_line(80, 210, 440, 210, fill=ACCENT_CYAN, width=1)
