@@ -1,42 +1,28 @@
 """
-╔══════════════════════════════════════════════════════════════════════════════╗
-║   OPTIMIZADOR DE SISTEMA HÍBRIDO SOLAR-BATERÍA                              ║
-║   Ingeniería en Energía y Sostenibilidad                                    ║
-║                                                                              ║
-║   Problema: Dimensionar un sistema fotovoltaico con almacenamiento           ║
-║   para minimizar el costo total y maximizar la autosuficiencia energética.  ║
-╚══════════════════════════════════════════════════════════════════════════════╝
-
-DESCRIPCIÓN DEL PROBLEMA
-─────────────────────────
-Un usuario (hogar o PYME) quiere instalar paneles solares con baterías para
-reducir su dependencia de la red eléctrica. Debe decidir:
-  → ¿Cuántos paneles solares instalar?
-  → ¿Qué capacidad de batería necesita?
-
+DESCRIPCIÓN DEL PROBLEMA:
+Un usuario (hogar) quiere instalar paneles solares con baterías para
+reducir su dependencia de la red eléctrica. 
+Debe decidir:
+1. ¿Cuántos paneles solares instalar?
+2. ¿Qué capacidad de batería necesita?
 El objetivo es encontrar la combinación que minimice el Costo Anual Total (CAT),
 que incluye: amortización del sistema + costo de energía comprada a la red.
 
-METODOLOGÍA
-────────────
+METODOLOGÍA:
 1. Se genera un perfil de consumo horario realista (8760 horas/año)
 2. Se genera un perfil de irradiancia solar horaria con variación estacional
 3. Para cada combinación (paneles × baterías), se simula hora a hora:
    - La generación fotovoltaica
    - La carga/descarga de la batería
    - La energía comprada/vendida a la red
-4. Se calcula el CAT para cada configuración
+4. Se calcula para cada configuración
 5. Se identifica la configuración óptima
 """
 
 import math
 import random
 
-
-# ─────────────────────────────────────────────────────────────────────────────
 # PARÁMETROS DEL SISTEMA
-# ─────────────────────────────────────────────────────────────────────────────
-
 # Panel solar (típico panel monocristalino 400W)
 PANEL_POTENCIA_W = 400          # Potencia pico por panel (W)
 PANEL_EFICIENCIA = 0.20         # Eficiencia del panel (20%)
@@ -44,7 +30,6 @@ PANEL_AREA_M2 = 2.0             # Área por panel (m²)
 PANEL_COSTO_USD = 250           # Costo por panel instalado (USD)
 PANEL_VIDA_ANOS = 25            # Vida útil del panel (años)
 PANEL_DEGRADACION_ANUAL = 0.005 # Degradación anual (0.5%)
-
 # Batería (LiFePO4 típica)
 BAT_COSTO_USD_KWH = 350         # Costo por kWh de capacidad (USD)
 BAT_VIDA_ANOS = 10              # Vida útil de la batería (años)
@@ -53,23 +38,19 @@ BAT_EFICIENCIA_DESCARGA = 0.95  # Eficiencia de descarga (95%)
 BAT_SOC_MIN = 0.15              # Estado de carga mínimo (15%) — protección
 BAT_SOC_MAX = 0.95              # Estado de carga máximo (95%) — protección
 BAT_C_RATE_MAX = 0.5            # Tasa máxima de carga/descarga (0.5C)
-
 # Inversor
 INVERSOR_EFICIENCIA = 0.97      # Eficiencia del inversor (97%)
 INVERSOR_COSTO_USD = 1500       # Costo fijo del inversor (USD)
 INVERSOR_VIDA_ANOS = 12         # Vida útil del inversor (años)
-
 # Economía
 TASA_DESC_ANUAL = 0.08          # Tasa de descuento anual (8%)
 PRECIO_COMPRA_USD_KWH = 0.18    # Precio de compra a la red (USD/kWh)
 PRECIO_VENTA_USD_KWH = 0.06     # Precio de venta a la red (USD/kWh — net metering)
 HORIZONTE_ANOS = 25             # Horizonte de análisis (años)
 EMISION_CO2_KG_KWH = 0.400     # Factor de emisión de la red (kg CO₂/kWh)
-
-# Ubicación (Colombia — zona de alta irradiancia)
+# Ubicación (Colombia)
 IRRADIANCIA_MEDIA_ANUAL = 5.2   # Horas solares pico promedio diarias (HSP)
 LATITUD_GRADOS = 7.0            # Latitud de Bucaramanga, Colombia
-
 # Rango de optimización
 MIN_PANELES = 2
 MAX_PANELES = 30
@@ -79,10 +60,7 @@ MIN_BAT_KWH = 0
 MAX_BAT_KWH = 40
 PASO_BAT_KWH = 5
 
-
-# ─────────────────────────────────────────────────────────────────────────────
 # GENERACIÓN DE PERFILES HORARIOS (8760 horas)
-# ─────────────────────────────────────────────────────────────────────────────
 
 def generar_perfil_consumo(semilla=42):
     """
